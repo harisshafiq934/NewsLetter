@@ -1,3 +1,4 @@
+const dotenv = require ("dotenv")
 const express = require("express");
 const bodyparser = require("body-parser");
 const request = require("request");
@@ -5,10 +6,14 @@ const https = require("https");
 const { url } = require("inspector");
 const { post } = require("request");
 const { STATUS_CODES } = require("http");
+const { Console } = require("console");
 const app = express();
 
+dotenv.config({path:"./config.env"});
 
-
+const PORT = process.env.PORT
+const URL = process.env.URL
+const KEY  = process.env.KEY
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({extended:true}));
 
@@ -39,10 +44,10 @@ app.post("/", function(req, res){
 
     };
     const jasonData = JSON.stringify(data);
-    const url = "https://us14.api.mailchimp.com/3.0/lists/7d485f264c"
+    const url = URL
     const options ={
         method:"POST",
-        auth:"haris:e34f1cb1dbbb6f8565ddf8c8a8ea4a4c-us14"
+        auth: KEY
 
     }
 
@@ -65,13 +70,13 @@ app.post("/failure", function(req, res){
     res.redirect("/");
 })
 
-app.listen(process.env.PORT || 3000, function(){
-    console.log("ok ki report");
-});
+// app.listen(process.env.PORT || PORT, function(){
+//     console.log("ok ki report");
+// });
+
+app.listen (PORT, ()=> {
+    console.log(`ok ki report  ${PORT}`);
+})
 
 
 
-// e34f1cb1dbbb6f8565ddf8c8a8ea4a4c-us14
-
-
-// 7d485f264c
